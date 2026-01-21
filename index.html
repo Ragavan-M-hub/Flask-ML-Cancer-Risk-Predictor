@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Risk Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap" rel="stylesheet">
+
+<style>
+    body{
+        font-family: "Merienda", cursive;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        padding: 30px;
+        background: #020024;
+background: linear-gradient(330deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    }
+    
+    .container{
+        width: 55vw;
+        margin-top: 5vw;
+        margin-left: 15vw;
+        padding: 20px;
+        background-color: white;
+        border-radius: 30px;
+    }
+
+    h1{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    label{
+        font-size: 1.2em;
+        margin-top: 10px;
+        display: block;
+        padding-top: 20px;
+    }
+
+    input[type='number'] {
+        width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+    }
+
+    button{
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(90deg,rgba(255, 0, 0, 1) 0%, rgba(97, 61, 196, 1) 50%, rgba(0, 212, 255, 1) 100%);
+        color: white;
+        border: none;
+        font-size: 1.2em;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    button:hover{
+        background: linear-gradient(90deg,rgba(0, 212, 255, 1) 0%, rgba(97, 61, 196, 1) 50%, rgba(255, 0, 0, 1) 100%);
+        color: white;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .result p {
+      font-weight: bold;
+    }
+</style>
+
+</head>
+<body>
+    <div class = 'container'>
+        <h1>Cancer Risk Predictor</h1>
+        <form action="/predict" method="post">
+            <label for="air_pollution">Air Pollution</label>
+            <input type="number" id="air_pollution" name="air_pollution" step="any" required>
+            
+            <label for="genetic_risk">Genetic Risk</label>
+            <input type="number" id="genetic_risk" name="genetic_risk" step="any" required>
+
+            <label for="obesity">Obesity</label>
+            <input type="number" id="obesity" name="obesity" step="any" required>
+
+            <label for="balanced_diet">Balanced Diet</label>
+            <input type="number" id="balanced_diet" name="balanced_diet" step="any" required>
+
+            <label for="occupational_hazards">Occuaptional Hazards</label>
+            <input type="number" id="occupational_hazards" name="occupational_hazards" step="any" required>
+
+            <label for="coughing_of_blood">Coughing of Blood</label>
+            <input type="number" id="coughing_of_blood" name="coughing_of_blood" step="any" required>
+
+            <button type="submit">Predict Risk Level</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <p>Predicted Risk Level: {{ result.predicted_class }}</p>
+            <p>Prediction Probabilities:</p>
+            <ul>
+                {% for class, prob in result.predicted_probability.items() %}
+                    <li>{{ class }}: {{ prob | round(4) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
